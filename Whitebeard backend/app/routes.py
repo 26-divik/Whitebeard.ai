@@ -5,3 +5,6 @@ routes_bp = Blueprint('routes', __name__)
 @routes_bp.route('/signup', methods=['POST'])
 def signup():
     return auth_controller.signup()
+@routes_bp.route('/login', methods=['POST'])
+def login():
+    return auth_controller.login()
