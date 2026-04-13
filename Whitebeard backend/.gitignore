@@ -1,4 +1,5 @@
 users.db
 .env
-flask_session
+**/flask_session
+/app/**/flask_session
 __pycache__/**/*
