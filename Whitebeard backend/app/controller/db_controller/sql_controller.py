@@ -30,3 +30,18 @@ def add_user (email, password, name):
     finally:
         conn.close()
         
+def get_user_by_id(user_id):
+    c, conn = get_cursor()
+    c.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    row = c.fetchone()
+
+    conn.close()
+    if not row:
+        return None
+
+    return {
+        "id": row[0],
+        "email": row[1],
+        "password": row[2],
+        "name": row[3]
+    }

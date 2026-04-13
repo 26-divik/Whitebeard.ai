@@ -1,9 +1,20 @@
-from flask import jsonify, request
-from app.controller.db_controller.db_controller import add_user, get_user_by_email
+from flask import app, jsonify, request,session
+from app.controller.db_controller.sql_controller import add_user, get_user_by_email
 import re  
 import bcrypt
+import flask_session as Session
 def signup():
-    data = request.get_json(silent=True) or {}
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+
+    try:
+        data = request.get_json()
+    except Exception as e:
+        return jsonify({"error": "Invalid JSON format"}), 400
+
+    if not isinstance(data, dict):
+        return jsonify({"error": "JSON must be an object"}), 400
+        
     is_valid, message = validate_signup_data(data)
     if not is_valid:
         return jsonify({"error": message}), 400
@@ -18,6 +29,7 @@ def signup():
     return jsonify({"message": "Signup successful"}), 201
 
 def validate_signup_data(data):
+    print(type(data))
     special_characters = "!@#$%^&*()-+?_=,<>/\"'"
     required_fields = ['email', 'password', 'name']
     for field in required_fields:
@@ -56,6 +68,7 @@ def login():
     hashed_password = user['password']
     if not check_hashed_password(password, hashed_password):
         return jsonify({"error": "Invalid password"}), 400
+    session['user_id'] = user['id']
     return jsonify({"message": "Login successful"}),200
 
 def validate_login_data(data):
@@ -70,3 +83,7 @@ def check_hashed_password(password, hashed_password):
         return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
     except Exception as e:
         return False
+    
+def logout():
+    session.pop('user_id', None)
+    return jsonify({"message": "Logout successful"}), 200
