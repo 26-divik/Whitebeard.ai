@@ -1,8 +1,7 @@
 from pymongo import MongoClient
 import dotenv
 import os
-import random
-import string
+import uuid
 dotenv.load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client["chats"]
@@ -18,7 +17,7 @@ def save_chat(chat_id, question, answer):
         collections.update_one({"chat_id": chat_id}, {"$push":  {"chat.questions": question, "chat.answers": answer}})
 def create_chat(user_id):
     try:
-        chat_id =str(''.join(random.choices(string.ascii_letters + string.digits, k=6)))
+        chat_id =sstr(uuid.uuid4())
         collections.insert_one({"chat_id": chat_id, "chat": {"questions": [], "answers": []}, "user_id": user_id})
         return True,f"Chat created with chat_id: {chat_id}"
     except Exception as e:
