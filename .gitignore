@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+.venv/
+venv/
+
+# Env files
+.env
+
+# Flask session
+flask_session/
+**/flask_session/
+
+# Database
+*.db
+
+# Node (frontend)
+node_modules/
+dist/
+build/

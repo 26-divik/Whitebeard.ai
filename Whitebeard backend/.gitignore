@@ -1,6 +1,0 @@
-users.db
-.env
-**/.venv
-**/flask_session
-/app/**/flask_session
-__pycache__/**/*
