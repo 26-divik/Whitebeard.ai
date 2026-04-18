@@ -15,9 +15,12 @@ def get_chat(chat_id):
 def save_chat(chat_id, question, answer):
     if chat_id is not None:
         collections.update_one({"chat_id": chat_id}, {"$push":  {"chat.questions": question, "chat.answers": answer}})
+    
 def create_chat(user_id):
     try:
-        chat_id =sstr(uuid.uuid4())
+        if len(get_users_chats(user_id)[1]) > 15 :
+            return false,f"Too many chats,limit right now is 15"
+        chat_id =str(uuid.uuid4())
         collections.insert_one({"chat_id": chat_id, "chat": {"questions": [], "answers": []}, "user_id": user_id})
         return True,f"Chat created with chat_id: {chat_id}"
     except Exception as e:
@@ -42,5 +45,14 @@ def get_user_chats(user_id):
         for chat in chats:    
             chat_list.append({"chat_id": chat["chat_id"], "chat":chat["chat"] if chat["chat"] else None})
         return True, chat_list
+    except Exception as e:
+        return False, str(e)
+
+def get_user_id_by_chat_id(chat_id):
+    try:
+        chat = collections.find_one({"chat_id": chat_id})
+        if chat is not None:
+            return True, chat["user_id"]
+        return False, "Chat not found"
     except Exception as e:
         return False, str(e)

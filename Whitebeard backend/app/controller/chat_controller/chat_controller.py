@@ -23,8 +23,8 @@ def message():
     usr_msg = data.get('message') 
 
 
-    if not usr_msg:
-        return jsonify({"error": "Message field is required"}), 400
+    if not usr_msg or not chat_id:
+        return jsonify({"error": "Message or chat_id field is required"}), 400
 
     chat = get_chat(chat_id)
     
@@ -34,20 +34,9 @@ def message():
         user_input = f"Act as an ai assistant whose name is Whitebeard, inspired from the character of the anime One Piece and answer the question which is: {usr_msg}"
 
     try:
+        user_input_tokens = len(user_input)/4
 
-        full_token_count = client.models.count_tokens(
-            model="gemini-2.5-flash-lite",
-            contents=user_input
-        )
-        user_input_tokens = full_token_count.total_tokens
-
-        # Calculate tokens for just the user's new message
-        msg_token_count = client.models.count_tokens(
-            model="gemini-2.5-flash-lite",
-            contents=usr_msg
-        )
-        user_message_tokens = msg_token_count.total_tokens
-
+        user_message_tokens = len(user_message)/4
     except Exception as e:
         return jsonify({"error": f"Failed to calculate tokens: {str(e)}"}), 500
 

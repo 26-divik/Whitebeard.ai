@@ -1,4 +1,4 @@
-from flask import app, jsonify, request,session
+from flask import jsonify, request,session
 from app.controller.db_controller.sql_controller import add_user, get_user_by_email
 import re  
 import bcrypt

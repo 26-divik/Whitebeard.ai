@@ -1,9 +1,7 @@
-from flask import Flask, jsonify, request ,Blueprint
+from flask import Blueprint
 from app.controller.login_controller import auth_controller
 from app.auth_middleware import login_required 
 routes_lg = Blueprint('u', __name__)
-routes_ch = Blueprint('c', __name__)
-
 @routes_lg.route('/signup', methods=['POST'])
 def signup():
     return auth_controller.signup()
