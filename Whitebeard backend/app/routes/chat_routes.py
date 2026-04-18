@@ -43,6 +43,16 @@ def get_chat_by_id(chat_id):
 @routes_ch.route('/message', methods=['POST'])
 @login_required
 def send_message(): 
+    data = request.get_json(silent=True) or {}
+    chat_id = data.get('chat_id')
+    user = get_user_by_id(session.get('user_id'))
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    check_user, owner_email = get_user_id_by_chat_id(chat_id)
+    if not check_user:
+        return jsonify({"error": owner_email}), 404
+    if owner_email != user['email']:
+        return jsonify({"error": "Unauthorized to send message to this chat"}), 403
     return message()
 @routes_ch.route('/delete_chat/<chat_id>', methods=['DELETE'])
 @login_required

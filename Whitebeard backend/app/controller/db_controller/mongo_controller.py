@@ -23,7 +23,7 @@ def create_chat(user_id):
             return False, "Too many chats, limit is 15"
         chat_id =str(uuid.uuid4())
         collections.insert_one({"chat_id": chat_id, "chat": {"questions": [], "answers": []}, "user_id": user_id})
-        return True,f"Chat created with chat_id: {chat_id}"
+        return True,chat_id
     except Exception as e:
         return False, str(e)
     

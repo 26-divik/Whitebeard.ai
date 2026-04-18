@@ -36,7 +36,7 @@ def message():
     try:
         user_input_tokens = len(user_input)/4
 
-        user_message_tokens = len(user_message)/4
+        user_message_tokens = len(usr_msg)/4
     except Exception as e:
         return jsonify({"error": f"Failed to calculate tokens: {str(e)}"}), 500
 
