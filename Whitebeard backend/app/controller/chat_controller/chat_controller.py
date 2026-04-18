@@ -10,7 +10,7 @@ client = genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 def message():
     if not request.is_json:
         return jsonify({"error": "Content-Type must be application/json"}), 400
-
+    
     try:
         data = request.get_json()
     except Exception:

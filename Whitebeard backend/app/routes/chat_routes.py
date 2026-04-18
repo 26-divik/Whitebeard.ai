@@ -34,8 +34,8 @@ def get_chat_by_id(chat_id):
     check_user, user_id = get_user_id_by_chat_id(chat_id)
     if not check_user:
         return jsonify({"error": user_id}), 404
-    if user_id != session.get('user_id'):
-        return jsonify({"error": "Unauthorized to delete this chat"}), 403
+    if user_id != user["email"]:
+        return jsonify({"error": "Unauthorized to access this chat"}), 403
     chat = get_chat(chat_id) 
     if not chat:
         return jsonify({"error": "Chat not found"}), 404
@@ -53,7 +53,7 @@ def delete_chat_by_id(chat_id):
     check_user, user_id = get_user_id_by_chat_id(chat_id)
     if not check_user:
         return jsonify({"error": user_id}), 404
-    if user_id != session.get('user_id'):
+    if user_id != user["email"]:
         return jsonify({"error": "Unauthorized to delete this chat"}), 403
 
     is_deleted, confirmation_msg = delete_chat(chat_id)

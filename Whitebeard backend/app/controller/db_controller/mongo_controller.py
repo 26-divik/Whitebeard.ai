@@ -18,8 +18,9 @@ def save_chat(chat_id, question, answer):
     
 def create_chat(user_id):
     try:
-        if len(get_users_chats(user_id)[1]) > 15 :
-            return false,f"Too many chats,limit right now is 15"
+        success, chats = get_user_chats(user_id)
+        if success and len(chats) >= 15:
+            return False, "Too many chats, limit is 15"
         chat_id =str(uuid.uuid4())
         collections.insert_one({"chat_id": chat_id, "chat": {"questions": [], "answers": []}, "user_id": user_id})
         return True,f"Chat created with chat_id: {chat_id}"

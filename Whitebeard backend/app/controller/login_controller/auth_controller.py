@@ -2,7 +2,6 @@ from flask import jsonify, request,session
 from app.controller.db_controller.sql_controller import add_user, get_user_by_email
 import re  
 import bcrypt
-import flask_session as Session
 def signup():
     if not request.is_json:
         return jsonify({"error": "Content-Type must be application/json"}), 400
@@ -29,7 +28,6 @@ def signup():
     return jsonify({"message": "Signup successful"}), 201
 
 def validate_signup_data(data):
-    print(type(data))
     special_characters = "!@#$%^&*()-+?_=,<>/\"'"
     required_fields = ['email', 'password', 'name']
     for field in required_fields:
