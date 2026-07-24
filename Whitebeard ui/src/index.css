@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+@theme{
+  --font-jersey-25: 'Jersey 25', sans-serif;
+  --font-work-sans: 'Work Sans', sans-serif;
+  --color-primary: #D0D2DF;
+  --color-secondary: #35354b;
+  --color-tertiary: #9E7AB7;
+  --color-background: #101414;
+}

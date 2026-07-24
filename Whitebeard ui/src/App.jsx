@@ -1,11 +1,6 @@
 import React from 'react'
-import Navbar from './Components/Navbar'
 function App() {
-  return (
-    <div>
-      <Navbar />
-    </div>
-  )
+  return null
 }
 
 export default App
